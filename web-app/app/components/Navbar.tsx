@@ -16,9 +16,7 @@ export default function Navbar() {
         </Link>
 
         {/* Desktop nav */}
-        <nav className="hidden md:flex items-center gap-8 text-md font-medium flex-1">
-          <Link href="/events" className="hover:text-gray-900 transition-colors">Events</Link>
-        </nav>
+        <nav className="hidden md:flex items-center gap-8 text-md font-medium flex-1" />
 
         {/* CTA */}
         <div className="hidden md:flex items-center gap-3">
@@ -36,10 +34,6 @@ export default function Navbar() {
       {/* Mobile menu */}
       {open && (
         <div className="md:hidden border-t border-gray-200/50 bg-white/90 backdrop-blur-md px-6 py-4 flex flex-col gap-4 text-sm text-gray-600">
-          <Link href="/events" className="hover:text-gray-900 transition-colors" onClick={() => setOpen(false)}>Events</Link>
-          <Link href="/how-it-works" className="hover:text-gray-900 transition-colors" onClick={() => setOpen(false)}>How it works</Link>
-          <Link href="/pricing" className="hover:text-gray-900 transition-colors" onClick={() => setOpen(false)}>Pricing</Link>
-          <Link href="/contact" className="hover:text-gray-900 transition-colors" onClick={() => setOpen(false)}>Contact</Link>
           <button className="px-4 py-2 bg-gray-900 text-white rounded-lg hover:bg-gray-700 transition-colors w-full">
             Book for event
           </button>
