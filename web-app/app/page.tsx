@@ -1,6 +1,6 @@
 import Link from "next/link";
 import Image from "next/image";
-import { Sparkles, Camera, Zap, Gift, ArrowRight } from "lucide-react";
+import { ArrowRight, Sparkles } from "lucide-react";
 
 export default function Home() {
   return (
@@ -33,7 +33,7 @@ export default function Home() {
               NFT polaroids for events: snap a pic, AI transform, and instantly print for attendees!
             </p>
             <div className="flex gap-4 pt-4">
-              <a href="https://t.me/mattwong_ca" target="_blank" rel="noopener noreferrer" className="px-6 py-3 bg-gray-900 text-white rounded-lg hover:bg-gray-700 transition-all flex items-center gap-2 group">
+              <a href="https://t.me/mattwong_ca" target="_blank" rel="noopener noreferrer" className="px-6 py-3 bg-gray-900 text-white font-medium rounded-lg hover:bg-gray-700 transition-all flex items-center gap-2 group">
                 Book for event
                 <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
               </a>
@@ -95,81 +95,53 @@ export default function Home() {
         </div>
       </section>
 
-      {/* How It Works */}
-      <section className="py-24 bg-white">
+      {/* Why organizers love Dreamprint */}
+      <section className="py-24 bg-gray-50">
         <div className="container mx-auto px-6">
-          <h2 className="text-4xl font-bold mb-16 text-center">How It Works</h2>
-          <div className="grid md:grid-cols-4 gap-8">
-            {[
-              {
-                icon: Camera,
-                title: "Capture",
-                description: "Guests snap photos at your event booth"
-              },
-              {
-                icon: Sparkles,
-                title: "Transform",
-                description: "AI generates unique artistic versions instantly"
-              },
-              {
-                icon: Zap,
-                title: "Print",
-                description: "Instant polaroid prints as physical souvenirs"
-              },
-              {
-                icon: Gift,
-                title: "Mint",
-                description: "NFTs created for digital collectibles"
-              }
-            ].map((step, index) => (
-              <div key={index} className="text-center space-y-4">
-                <div className="inline-flex w-16 h-16 items-center justify-center rounded-full bg-gray-100 border border-gray-200">
-                  <step.icon className="w-7 h-7 text-gray-700" />
-                </div>
-                <h3 className="text-xl font-semibold">{step.title}</h3>
-                <p className="text-gray-500">{step.description}</p>
-              </div>
-            ))}
+          <div className="grid lg:grid-cols-2 gap-16 items-start">
+            <div className="space-y-6">
+              <h2 className="text-4xl font-bold leading-tight text-indigo-700" style={{ fontFamily: 'var(--font-montserrat-alternates)' }}>
+                Event hosts love Dreamprint
+              </h2>
+              <ul className="space-y-4 text-lg">
+                {[
+                  "Collectible artwork tailored to any artist's style",
+                  "Memorable, low-cost, and high-engagement",
+                  "Increased social visibility via share-worthy photos",
+                ].map((point, i) => (
+                  <li key={i} className="flex items-start gap-3">
+                    <Sparkles className="w-5 h-5 text-indigo-500 mt-1 shrink-0" />
+                    <span>{point}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+            <div className="relative aspect-[4/3] bg-gray-200 rounded-2xl overflow-hidden" />
           </div>
         </div>
       </section>
-
-      {/* Features */}
-      <section className="py-24 bg-gray-50">
+      {/* Organizers section */}
+      <section className="py-24 bg-white">
         <div className="container mx-auto px-6">
-          <h2 className="text-4xl font-bold mb-16 text-center">Perfect for Your Event</h2>
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-5xl mx-auto">
-            {[
-              {
-                title: "Unique Guest Experience",
-                description: "Give attendees something memorable - AI art they can take home and treasure"
-              },
-              {
-                title: "Social Media Ready",
-                description: "Guests share their unique polaroids, creating organic buzz for your event"
-              },
-              {
-                title: "Custom Branding",
-                description: "Tailor AI styles and frames to perfectly match your event theme"
-              },
-              {
-                title: "Web3 Native",
-                description: "NFTs provide proof of attendance on the blockchain"
-              },
-              {
-                title: "Quick Setup",
-                description: "Full booth ready in under 2 hours with minimal space required"
-              },
-              {
-                title: "Real-time Gallery",
-                description: "Display all generated photos on screens throughout your venue"
-              }
-            ].map((feature, index) => (
-              <div key={index} className="p-6 bg-white border border-gray-200 rounded-xl hover:border-gray-300 hover:shadow-sm transition-all">
-                <h3 className="font-semibold mb-2">{feature.title}</h3>
-                <p className="text-sm text-gray-500">{feature.description}</p>
-              </div>
-            ))}
+          <div className="grid lg:grid-cols-2 gap-16 items-start">
+            <div className="relative aspect-[4/3] bg-gray-200 rounded-2xl overflow-hidden" />
+            <div className="space-y-6">
+              <h2 className="text-4xl font-bold leading-tight text-indigo-700" style={{ fontFamily: 'var(--font-montserrat-alternates)' }}>
+                Collectors become Creators
+              </h2>
+              <ul className="space-y-4 text-lg">
+                {[
+                  "Mint as NFTs, curate as galleries on Exchange Art",
+                  "Onboard users to new ecosystems + increase mint volume",
+                  "Be a part of long-term communities",
+                ].map((point, i) => (
+                  <li key={i} className="flex items-start gap-3">
+                    <Sparkles className="w-5 h-5 text-indigo-500 mt-1 shrink-0" />
+                    <span>{point}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
           </div>
         </div>
       </section>
