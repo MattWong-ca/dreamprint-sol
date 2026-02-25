@@ -60,19 +60,19 @@ export default function EventsPage() {
         <h1 className="text-4xl font-bold text-gray-900" style={{ fontFamily: 'var(--font-montserrat-alternates)' }}>
           Events
         </h1>
-        <hr className="border-gray-200" />
+        <hr className="border-black" />
         {EVENTS.map((event: EventInfo) => (
           <div
             key={event.id}
             onClick={() => router.push(`/events/${event.id}`)}
-            className="group cursor-pointer border border-gray-200 rounded-2xl overflow-hidden bg-white hover:border-gray-300 hover:shadow-md transition-all duration-200 flex h-40"
+            className="group cursor-pointer border border-black rounded-2xl overflow-hidden bg-white hover:border-black hover:shadow-md transition-all duration-200 flex h-40"
           >
             {/* Image */}
-            <div className="relative w-48 shrink-0 bg-gray-100">
+            <div className="relative w-48 shrink-0">
               {event.image ? (
                 <Image src={event.image} alt={event.name} fill className="object-cover" />
               ) : (
-                <div className="absolute inset-0 bg-gray-100" />
+                <div className="absolute inset-0" />
               )}
             </div>
 
