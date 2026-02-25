@@ -70,7 +70,7 @@ export default function EventsPage() {
             {/* Image */}
             <div className="relative w-48 shrink-0">
               {event.image ? (
-                <Image src={event.image} alt={event.name} fill className="object-cover" />
+                <Image src={event.image} alt={event.name} fill className="object-cover" style={{ objectPosition: event.imagePosition || 'center' }} />
               ) : (
                 <div className="absolute inset-0" />
               )}
