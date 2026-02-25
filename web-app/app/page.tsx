@@ -24,7 +24,7 @@ export default function Home() {
           </svg>
         </div>
 
-        <div className="container mx-auto px-6 grid lg:grid-cols-2 gap-12 items-center">
+        <div className="max-w-7xl mx-auto w-full px-6 grid lg:grid-cols-2 gap-12 items-center">
           {/* Left Content */}
           <div className="space-y-6 z-10">
             <h1 className="text-6xl lg:text-7xl font-bold leading-tight bg-indigo-700 bg-clip-text text-transparent" style={{ fontFamily: 'var(--font-montserrat-alternates)' }}>
@@ -74,22 +74,22 @@ export default function Home() {
 
       {/* As Seen At */}
       <section className="py-16 bg-white border-t border-gray-100">
-        <div className="container mx-auto px-6">
+        <div className="max-w-7xl mx-auto w-full px-6">
           <p className="text-center text-sm font-semibold text-gray-400 uppercase tracking-widest mb-6" style={{ fontFamily: 'var(--font-montserrat-alternates)' }}>
             As seen at
           </p>
-          <div className="flex items-center justify-center gap-16">
-            <div className="relative w-44 h-20">
+          <div className="flex items-center justify-center gap-8 md:gap-16">
+            <div className="relative w-24 h-12 md:w-44 md:h-20">
               <Image src="/ethglobalnyc.png" alt="ETHGlobal NYC" fill className="object-contain" />
             </div>
             {/* Hack the North */}
-            <div className="flex items-center gap-3 h-20">
-              <div className="relative w-16 h-16 shrink-0">
+            <div className="flex items-center gap-2 md:gap-3 h-12 md:h-20">
+              <div className="relative w-10 h-10 md:w-16 md:h-16 shrink-0">
                 <Image src="/htn.jpeg" alt="Hack the North" fill className="object-contain rounded" />
               </div>
-              <span className="text-3xl font-black text-gray-800 leading-tight">Hack the North</span>
+              <span className="text-base md:text-3xl font-black text-gray-800 leading-tight">Hack the North</span>
             </div>
-            <div className="relative w-44 h-20">
+            <div className="relative w-24 h-12 md:w-44 md:h-20">
               <Image src="/ethrome.png" alt="ETHRome" fill className="object-contain invert" />
             </div>
           </div>
@@ -98,7 +98,7 @@ export default function Home() {
 
       {/* Why organizers love Dreamprint */}
       <section className="py-24 bg-gray-50">
-        <div className="container mx-auto px-6">
+        <div className="max-w-7xl mx-auto w-full px-6">
           <FadeIn direction="left">
             <div className="grid lg:grid-cols-2 gap-16 items-start">
               <div className="space-y-6">
@@ -125,7 +125,7 @@ export default function Home() {
       </section>
       {/* Organizers section */}
       <section className="py-24 bg-white">
-        <div className="container mx-auto px-6">
+        <div className="max-w-7xl mx-auto w-full px-6">
           <FadeIn direction="right">
             <div className="grid lg:grid-cols-2 gap-16 items-start">
               <div className="relative aspect-[4/3] bg-gray-200 rounded-2xl overflow-hidden" />

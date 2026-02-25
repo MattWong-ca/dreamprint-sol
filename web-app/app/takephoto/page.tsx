@@ -198,12 +198,12 @@ function TakePhotoContent() {
           {!photoUploaded ? (
             <div className="w-full h-full bg-gray-50 border-2 border-dashed border-gray-200 rounded-2xl flex flex-col items-center justify-center gap-3">
               <span className="text-4xl">📷</span>
-              <p className="text-sm text-gray-400 text-center px-4">Select a photo from your camera roll</p>
+              <p className="text-sm text-gray-400 text-center px-4">Take or upload a photo to get started</p>
               <button
                 onClick={() => fileInputRef.current?.click()}
                 className="px-4 py-2 bg-gray-900 text-white text-sm rounded-xl hover:bg-gray-700 transition-colors"
               >
-                Choose Photo
+                Take Photo
               </button>
               <input
                 ref={fileInputRef}
