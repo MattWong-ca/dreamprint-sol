@@ -49,38 +49,23 @@ export default function Home() {
           {/* Right Image - Polaroids Grid */}
           <div className="relative h-[600px] hidden lg:block">
             <div className="absolute inset-0 bg-gradient-to-br from-blue-400/50 via-purple-400/50 to-pink-400/50 blur-3xl" />
-            <div className="relative grid grid-cols-2 gap-4 p-14 -mt-24">
-              {["one.JPG", "two.jpg", "three.JPG", "four.JPG"].map((src, i) => (
-                <div
-                  key={i}
-                  className="aspect-[3/4] rounded-xl shadow-xl overflow-hidden bg-gray-100 hover:scale-105 transition-transform"
-                  style={{
-                    transform: `rotate(${(i % 2 === 0 ? 1 : -1) * (i + 2)}deg)`,
-                  }}
-                >
-                  <Image src={`/${src}`} alt="" fill className="object-cover" />
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Stats Bar */}
-      <section className="border-y border-gray-200 bg-gray-50">
-        <div className="container mx-auto px-6 py-12">
-          <div className="grid grid-cols-3 gap-12 text-center">
-            <div>
-              <div className="text-4xl font-bold mb-2">100+</div>
-              <div className="text-gray-500">Average Attendees</div>
-            </div>
-            <div>
-              <div className="text-4xl font-bold mb-2">10-20</div>
-              <div className="text-gray-500">Partner Companies</div>
-            </div>
-            <div>
-              <div className="text-4xl font-bold mb-2">2hrs</div>
-              <div className="text-gray-500">Setup Time</div>
+            <div className="relative flex gap-3 p-14 -mt-24">
+              {/* Left column */}
+              <div className="flex flex-col gap-3 flex-1">
+                {["one.JPG", "3.JPG"].map((src, i) => (
+                  <div key={i} className="relative aspect-[3/4] rounded-xl shadow-xl overflow-hidden bg-gray-100 hover:scale-105 transition-transform">
+                    <Image src={`/${src}`} alt="" fill className="object-cover" />
+                  </div>
+                ))}
+              </div>
+              {/* Right column — shifted down */}
+              <div className="flex flex-col gap-3 flex-1 mt-7">
+                {["two.jpg", "four.JPG"].map((src, i) => (
+                  <div key={i} className="relative aspect-[3/4] rounded-xl shadow-xl overflow-hidden bg-gray-100 hover:scale-105 transition-transform">
+                    <Image src={`/${src}`} alt="" fill className="object-cover" />
+                  </div>
+                ))}
+              </div>
             </div>
           </div>
         </div>
@@ -161,21 +146,6 @@ export default function Home() {
                 <p className="text-sm text-gray-500">{feature.description}</p>
               </div>
             ))}
-          </div>
-        </div>
-      </section>
-
-      {/* CTA */}
-      <section className="py-24 bg-white">
-        <div className="container mx-auto px-6">
-          <div className="max-w-3xl mx-auto text-center space-y-6">
-            <h2 className="text-5xl font-bold">Ready to elevate your event?</h2>
-            <p className="text-xl text-gray-500">
-              Let&apos;s create an unforgettable experience for your guests
-            </p>
-            <button className="px-8 py-4 bg-gray-900 text-white rounded-lg hover:bg-gray-700 transition-all text-lg font-medium">
-              Get in Touch
-            </button>
           </div>
         </div>
       </section>
