@@ -11,7 +11,7 @@ interface NewSessionModalProps {
 }
 
 export default function NewSessionModal({ isOpen, onClose, onCreateSession, isCreating }: NewSessionModalProps) {
-  const [event, setEvent] = useState("ethrome-2025");
+  const [event, setEvent] = useState("sol-demo");
   const [collageOptIn, setCollageOptIn] = useState(true);
 
   const handleSubmit = (e: React.FormEvent) => {
