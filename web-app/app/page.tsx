@@ -71,6 +71,30 @@ export default function Home() {
         </div>
       </section>
 
+      {/* As Seen At */}
+      <section className="py-16 bg-white border-t border-gray-100">
+        <div className="container mx-auto px-6">
+          <p className="text-center text-sm font-semibold text-gray-400 uppercase tracking-widest mb-6" style={{ fontFamily: 'var(--font-montserrat-alternates)' }}>
+            As seen at
+          </p>
+          <div className="flex items-center justify-center gap-16">
+            <div className="relative w-44 h-20">
+              <Image src="/ethglobalnyc.png" alt="ETHGlobal NYC" fill className="object-contain" />
+            </div>
+            {/* Hack the North */}
+            <div className="flex items-center gap-3 h-20">
+              <div className="relative w-16 h-16 shrink-0">
+                <Image src="/htn.jpeg" alt="Hack the North" fill className="object-contain rounded" />
+              </div>
+              <span className="text-3xl font-black text-gray-800 leading-tight">Hack the North</span>
+            </div>
+            <div className="relative w-44 h-20">
+              <Image src="/ethrome.png" alt="ETHRome" fill className="object-contain invert" />
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* How It Works */}
       <section className="py-24 bg-white">
         <div className="container mx-auto px-6">
