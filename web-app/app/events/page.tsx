@@ -79,7 +79,7 @@ export default function EventsPage() {
             {/* Content */}
             <div className="flex-1 p-5 flex items-center justify-between gap-4">
               <div className="space-y-1">
-                <div className="text-xs text-gray-400 font-medium uppercase tracking-widest">
+                <div className="hidden md:block text-xs text-gray-400 font-medium uppercase tracking-widest">
                   {event.date} &middot;{" "}
                   {loading ? (
                     <span className="animate-pulse">...</span>

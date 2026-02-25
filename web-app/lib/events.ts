@@ -31,8 +31,8 @@ export const EVENTS: EventInfo[] = [
   },
   {
     id: "nyc-2025",
-    name: "ETHGlobal New York 2025",
-    description: "Building the future of decentralized applications",
+    name: "ETHGlobal NYC 2025",
+    description: "NYC's largest blockchain hackathon",
     date: "August 2025",
     image: "/nyc2.png",
     imagePosition: "left",

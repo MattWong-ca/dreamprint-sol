@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { RefreshCw } from "lucide-react";
 import { getAllOrders, DreamprintOrder, createNewSession } from "@/lib/supabase";
 import { EVENTS } from "@/lib/events";
 import NewSessionModal from "@/app/components/NewSessionModal";
@@ -123,23 +124,30 @@ export default function AdminPage() {
 
       <div className="relative z-10 px-6 pt-28 pb-16 max-w-7xl mx-auto">
         {/* Header */}
-        <div className="flex justify-between items-center mb-8">
+        <div className="flex flex-col gap-4 mb-8">
           <h1
             className="text-4xl font-bold text-gray-900"
             style={{ fontFamily: 'var(--font-montserrat-alternates)' }}
           >
             Orders
           </h1>
-          <div className="flex gap-3">
+          <div className="flex flex-wrap gap-3">
             <select
               value={eventFilter}
               onChange={(e) => setEventFilter(e.target.value)}
               className="px-4 py-2 bg-white border border-gray-200 text-gray-700 text-sm rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-300"
             >
               <option value="all">All events</option>
-              {EVENTS.map((e) => (
-                <option key={e.id} value={e.id}>{e.name}</option>
-              ))}
+              {EVENTS.map((e) => {
+                const label = e.name
+                  .replace(" 2025", "")
+                  .replace("ETHGlobal New York", "ETHGlobal NYC");
+                return (
+                  <option key={e.id} value={e.id}>
+                    {label}
+                  </option>
+                );
+              })}
             </select>
             <button
               onClick={() => setShowNewSessionModal(true)}
@@ -151,9 +159,9 @@ export default function AdminPage() {
             <button
               onClick={fetchOrders}
               disabled={loading}
-              className="px-4 py-2 bg-gray-900 text-white text-sm rounded-xl hover:bg-gray-700 transition-colors disabled:opacity-50"
+              className="px-4 py-2 bg-gray-900 text-white rounded-xl hover:bg-gray-700 transition-colors disabled:opacity-50"
             >
-              {loading ? "Refreshing..." : "Refresh"}
+              <RefreshCw className={`w-4 h-4 ${loading ? "animate-spin" : ""}`} />
             </button>
           </div>
         </div>
