@@ -1,6 +1,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import { ArrowRight, Sparkles } from "lucide-react";
+import FadeIn from "./components/FadeIn";
 
 export default function Home() {
   return (
@@ -98,51 +99,55 @@ export default function Home() {
       {/* Why organizers love Dreamprint */}
       <section className="py-24 bg-gray-50">
         <div className="container mx-auto px-6">
-          <div className="grid lg:grid-cols-2 gap-16 items-start">
-            <div className="space-y-6">
-              <h2 className="text-4xl font-bold leading-tight text-indigo-700" style={{ fontFamily: 'var(--font-montserrat-alternates)' }}>
-                Event hosts love Dreamprint
-              </h2>
-              <ul className="space-y-4 text-lg">
-                {[
-                  "Collectible artwork tailored to any artist's style",
-                  "Memorable, low-cost, and high-engagement",
-                  "Increased social visibility via share-worthy photos",
-                ].map((point, i) => (
-                  <li key={i} className="flex items-start gap-3">
-                    <Sparkles className="w-5 h-5 text-indigo-500 mt-1 shrink-0" />
-                    <span>{point}</span>
-                  </li>
-                ))}
-              </ul>
+          <FadeIn direction="left">
+            <div className="grid lg:grid-cols-2 gap-16 items-start">
+              <div className="space-y-6">
+                <h2 className="text-4xl font-bold leading-tight text-indigo-700" style={{ fontFamily: 'var(--font-montserrat-alternates)' }}>
+                  Event hosts love Dreamprint
+                </h2>
+                <ul className="space-y-4 text-lg">
+                  {[
+                    "Collectible artwork tailored to any artist's style",
+                    "Memorable, low-cost, and high-engagement",
+                    "Increased social visibility via share-worthy photos",
+                  ].map((point, i) => (
+                    <li key={i} className="flex items-start gap-3">
+                      <Sparkles className="w-5 h-5 text-indigo-500 mt-1 shrink-0" />
+                      <span>{point}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+              <div className="relative aspect-[4/3] bg-gray-200 rounded-2xl overflow-hidden" />
             </div>
-            <div className="relative aspect-[4/3] bg-gray-200 rounded-2xl overflow-hidden" />
-          </div>
+          </FadeIn>
         </div>
       </section>
       {/* Organizers section */}
       <section className="py-24 bg-white">
         <div className="container mx-auto px-6">
-          <div className="grid lg:grid-cols-2 gap-16 items-start">
-            <div className="relative aspect-[4/3] bg-gray-200 rounded-2xl overflow-hidden" />
-            <div className="space-y-6">
-              <h2 className="text-4xl font-bold leading-tight text-indigo-700" style={{ fontFamily: 'var(--font-montserrat-alternates)' }}>
-                Collectors become Creators
-              </h2>
-              <ul className="space-y-4 text-lg">
-                {[
-                  "Mint as NFTs, curate as galleries on Exchange Art",
-                  "Onboard users to new ecosystems + increase mint volume",
-                  "Be a part of long-term communities",
-                ].map((point, i) => (
-                  <li key={i} className="flex items-start gap-3">
-                    <Sparkles className="w-5 h-5 text-indigo-500 mt-1 shrink-0" />
-                    <span>{point}</span>
-                  </li>
-                ))}
-              </ul>
+          <FadeIn direction="right">
+            <div className="grid lg:grid-cols-2 gap-16 items-start">
+              <div className="relative aspect-[4/3] bg-gray-200 rounded-2xl overflow-hidden" />
+              <div className="space-y-6">
+                <h2 className="text-4xl font-bold leading-tight text-indigo-700" style={{ fontFamily: 'var(--font-montserrat-alternates)' }}>
+                  Collectors become Creators
+                </h2>
+                <ul className="space-y-4 text-lg">
+                  {[
+                    "Mint as NFTs, curate as galleries on Exchange Art",
+                    "Onboard users to new ecosystems + increase mint volume",
+                    "Be a part of long-term communities",
+                  ].map((point, i) => (
+                    <li key={i} className="flex items-start gap-3">
+                      <Sparkles className="w-5 h-5 text-indigo-500 mt-1 shrink-0" />
+                      <span>{point}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
             </div>
-          </div>
+          </FadeIn>
         </div>
       </section>
     </div>
