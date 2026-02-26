@@ -4,7 +4,7 @@ Dreamprint turns event photos into AI-generated artwork and mints them as NFTs o
 
 Live app: https://www.dreamprint.app/
 <br>
-Demo: https://youtu.be/Nxfj2R_36t8
+Demo: https://youtu.be/1ZKQsGRMfQg
 <br>
 
 <img width="1440" height="812" alt="Landing" src="https://github.com/user-attachments/assets/0297eec6-c61a-4e63-b83c-188629318deb" />
