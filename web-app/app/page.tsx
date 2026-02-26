@@ -118,7 +118,9 @@ export default function Home() {
                   ))}
                 </ul>
               </div>
-              <div className="relative aspect-[4/3] bg-gray-200 rounded-2xl overflow-hidden" />
+              <div className="relative aspect-[4/3] rounded-2xl overflow-hidden">
+                <Image src="/social1.png" alt="Event hosts love Dreamprint" fill className="object-cover" />
+              </div>
             </div>
           </FadeIn>
         </div>
