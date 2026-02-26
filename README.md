@@ -6,8 +6,14 @@ Live app: https://www.dreamprint.app/
 <br>
 Demo: https://youtu.be/1ZKQsGRMfQg
 <br>
-Previous events: https://www.dreamprint.app/events
 
+<img width="1440" height="812" alt="Landing" src="https://github.com/user-attachments/assets/0297eec6-c61a-4e63-b83c-188629318deb" />
+
+<img width="1440" height="812" alt="ETHRome" src="https://github.com/user-attachments/assets/fe1af821-529a-4a39-9c00-a3b516450443" />
+
+<img width="1440" height="813" alt="Hack the North" src="https://github.com/user-attachments/assets/062ad837-f5c7-46dc-aaa4-964066f2974f" />
+
+<img width="1440" height="812" alt="ETHGlobal NYC" src="https://github.com/user-attachments/assets/25a84567-03e5-4750-8e80-5875c11fda5b" />
 
 ## Tech Stack
 
