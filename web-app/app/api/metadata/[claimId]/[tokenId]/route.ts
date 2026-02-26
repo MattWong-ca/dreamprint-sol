@@ -37,7 +37,7 @@ export async function GET(
       name: `Dreamprint #${tokenId}`,
       description: `NFT collectibles by Dreamprint, powered by Base.`,
       image: order.image_url,
-      external_url: `https://dreamprint.app/claim/${claimId}`
+      external_url: `https://dreamprint-sol.vercel.app/claim/${claimId}`
     });
 
   } catch (error: unknown) {
