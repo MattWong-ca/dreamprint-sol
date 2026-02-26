@@ -244,7 +244,7 @@ export default function ClaimPage() {
             <p className="text-xs text-gray-400 mb-1">Asset Address</p>
             <p className="font-mono text-sm text-gray-700 break-all mb-3">{mintedAddress}</p>
             <a
-              href={`https://xray.helius.xyz/token/${mintedAddress}?network=devnet`}
+              href={`https://explorer.solana.com/address/${mintedAddress}?cluster=devnet`}
               target="_blank"
               rel="noopener noreferrer"
               className="text-sm text-indigo-600 hover:underline"
