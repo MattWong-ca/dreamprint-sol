@@ -32,7 +32,7 @@ export async function GET(
       symbol: "DPRINT",
       description: "NFT collectible by Dreamprint, powered by Solana.",
       image: order.image_url,
-      external_url: `https://dreamprint.app/claim/${claimId}`,
+      external_url: `https://dreamprint-sol.vercel.app/claim/${claimId}`,
       seller_fee_basis_points: 0,
       properties: {
         category: "image",
