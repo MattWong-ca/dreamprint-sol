@@ -21,6 +21,8 @@ Dreamprint is built on Next.js with a serverless API layer, Solana for NFT minti
 - **@solana/wallet-adapter** — Wallet connection
 - **Fujifilm Instax Printer** - Printing physical polaroids
 
+After all guests have minted their NFTs, event hosts can leverage Exchange Art to curate a gallery featuring everyone that attended the event. 
+
 ## Roadmap
 
 - Gasless transactions to improve UX, especially for those that don’t have wallets
