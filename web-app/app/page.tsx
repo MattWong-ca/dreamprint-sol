@@ -130,7 +130,9 @@ export default function Home() {
         <div className="max-w-7xl mx-auto w-full px-6">
           <FadeIn direction="right">
             <div className="grid lg:grid-cols-2 gap-16 items-start">
-              <div className="relative aspect-[4/3] bg-gray-200 rounded-2xl overflow-hidden" />
+              <div className="relative aspect-[4/3] rounded-2xl overflow-hidden">
+                <Image src="/creators.png" alt="Collectors become Creators" fill className="object-cover" />
+              </div>
               <div className="space-y-6">
                 <h2 className="text-4xl font-bold leading-tight text-indigo-700" style={{ fontFamily: 'var(--font-montserrat-alternates)' }}>
                   Collectors become Creators
