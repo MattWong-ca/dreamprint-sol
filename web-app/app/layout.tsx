@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Geist_Mono, Montserrat_Alternates, Poppins } from "next/font/google";
 import Navbar from "./components/Navbar";
+import Providers from "./components/Providers";
 import "./globals.css";
 
 const poppins = Poppins({
@@ -35,8 +36,10 @@ export default function RootLayout({
       <body
         className={`${poppins.variable} ${geistMono.variable} ${montserratAlternates.variable} antialiased font-[family-name:var(--font-poppins)]`}
       >
-        <Navbar />
-        {children}
+        <Providers>
+          <Navbar />
+          {children}
+        </Providers>
       </body>
     </html>
   );
