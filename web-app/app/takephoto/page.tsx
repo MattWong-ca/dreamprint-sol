@@ -77,12 +77,58 @@ function TakePhotoContent() {
     });
   };
 
+  const compositeLogosOnImage = async (imageUrl: string): Promise<string> => {
+    const canvas = document.createElement('canvas');
+    const ctx = canvas.getContext('2d');
+    if (!ctx) return imageUrl;
+
+    const loadImage = (src: string): Promise<HTMLImageElement> =>
+      new Promise((resolve, reject) => {
+        const img = new Image();
+        img.onload = () => resolve(img);
+        img.onerror = reject;
+        img.src = src;
+      });
+
+    try {
+      // Fetch as blob to avoid canvas CORS taint from the Replicate URL
+      const blob = await fetch(imageUrl).then(r => r.blob());
+      const blobUrl = URL.createObjectURL(blob);
+      const [mainImg, logo] = await Promise.all([loadImage(blobUrl), loadImage('/bonk.png')]);
+      URL.revokeObjectURL(blobUrl);
+
+      canvas.width = mainImg.width;
+      canvas.height = mainImg.height;
+      ctx.drawImage(mainImg, 0, 0);
+
+      const base = mainImg.width * 0.08;
+      const W = mainImg.width;
+      const H = mainImg.height;
+
+      const bonks = [
+        { cx: W * 0.15, cy: H * 0.88, size: base * 3.0, angle: -0.20 },
+      ];
+
+      for (const { cx, cy, size, angle } of bonks) {
+        ctx.save();
+        ctx.translate(cx, cy);
+        ctx.rotate(angle);
+        ctx.drawImage(logo, -size / 2, -size / 2, size, size);
+        ctx.restore();
+      }
+
+      return canvas.toDataURL('image/jpeg', 0.92);
+    } catch {
+      return imageUrl; // graceful fallback — show image without logos
+    }
+  };
+
   const handleAIEdit = async () => {
     try {
       setIsProcessingAI(true);
       setCurrentStep("processing");
       const compressedImage = await compressImage(uploadedImage);
-      const prompt = "Turn this photo into a soft pastel cartoon portrait inspired by Studio Ghibli, featuring a Roman-style laurel wreath in the back and warm Italian sunlight. Use watercolor-like brushstrokes and light blue background with soft clouds.";
+      const prompt = "Turn this photo into a detailed manga-style portrait with clean line art, expressive eyes, and subtle cel shading. Use dynamic inking and soft screentone textures for depth. Add a Solana-inspired gradient background blending purple and neon green, with a smooth luminous transition. Keep the composition centered and portrait-focused, with crisp highlights and high contrast typical of modern manga illustration.";
       const response = await fetch('/api/ai-edit', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -91,7 +137,8 @@ function TakePhotoContent() {
       if (!response.ok) throw new Error('Failed to process AI edit');
       const result = await response.json();
       if (result.editedImageUrl) {
-        setUploadedImage(result.editedImageUrl);
+        const composited = await compositeLogosOnImage(result.editedImageUrl);
+        setUploadedImage(composited);
         setCurrentStep("actions");
       } else {
         throw new Error('No edited image URL received');
