@@ -2,12 +2,18 @@
 
 import { useState, useEffect } from "react";
 import { useParams } from "next/navigation";
-import { useWallet, useConnection } from "@solana/wallet-adapter-react";
-import { createUmi } from "@metaplex-foundation/umi-bundle-defaults";
-import { walletAdapterIdentity } from "@metaplex-foundation/umi-signer-wallet-adapters";
-import { mplCore, create } from "@metaplex-foundation/mpl-core";
-import { generateSigner } from "@metaplex-foundation/umi";
-import { DreamprintOrder, getOrderByClaimId, updateOrderStatus } from "@/lib/supabase";
+import { useWallet } from "@solana/wallet-adapter-react";
+import { useWalletModal } from "@solana/wallet-adapter-react-ui";
+import { Keypair } from "@solana/web3.js";
+import bs58 from "bs58";
+import { DreamprintOrder, getOrderByClaimId } from "@/lib/supabase";
+
+type MintMethod = null | "wallet" | "burner";
+
+interface BurnerWallet {
+  publicKey: string;
+  secretKey: number[];
+}
 
 const GradientBg = () => (
   <div className="absolute inset-0 overflow-hidden pointer-events-none">
@@ -29,17 +35,19 @@ export default function ClaimPage() {
   const params = useParams();
   const claimId = params.claimId as string;
 
-  const wallet = useWallet();
-  const { connection } = useConnection();
-
-  const { publicKey, connected } = wallet;
+  const { publicKey, connected } = useWallet();
+  const { setVisible } = useWalletModal();
 
   const [order, setOrder] = useState<DreamprintOrder | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
+
+  const [mintMethod, setMintMethod] = useState<MintMethod>(null);
+  const [burnerWallet, setBurnerWallet] = useState<BurnerWallet | null>(null);
   const [minting, setMinting] = useState(false);
   const [mintError, setMintError] = useState("");
   const [mintedAddress, setMintedAddress] = useState("");
+  const [keyCopied, setKeyCopied] = useState(false);
 
   useEffect(() => {
     if (claimId) fetchOrderDetails();
@@ -60,32 +68,38 @@ export default function ClaimPage() {
     }
   };
 
-  const handleMint = async () => {
-    if (!connected || !publicKey) return;
+  const handleChooseWallet = () => {
+    setMintMethod("wallet");
+    if (!connected) setVisible(true);
+  };
+
+  const handleChooseBurner = () => {
+    const keypair = Keypair.generate();
+    const burner: BurnerWallet = {
+      publicKey: keypair.publicKey.toBase58(),
+      secretKey: Array.from(keypair.secretKey),
+    };
+    localStorage.setItem(`dreamprint_burner_${claimId}`, JSON.stringify(burner));
+    setBurnerWallet(burner);
+    setMintMethod("burner");
+  };
+
+  const handleMint = async (recipientAddress: string) => {
     setMinting(true);
     setMintError("");
-
     try {
-      const metadataUri = `${window.location.origin}/api/metadata/${claimId}`;
-
-      const umi = createUmi(connection.rpcEndpoint)
-        .use(mplCore())
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        .use(walletAdapterIdentity(wallet as any));
-
-      const asset = generateSigner(umi);
-
-      await create(umi, {
-        asset,
-        name: "Dreamprint",
-        uri: metadataUri,
-      }).sendAndConfirm(umi);
-
-      const assetAddress = asset.publicKey.toString();
+      const res = await fetch("/api/mint", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ recipientAddress, claimId }),
+      });
+      if (!res.ok) {
+        const data = await res.json();
+        throw new Error(data.error || "Mint failed");
+      }
+      const { assetAddress } = await res.json();
       setMintedAddress(assetAddress);
-
-      await updateOrderStatus(claimId, { minted_status: true });
-      setOrder((prev) => prev ? { ...prev, minted_status: true } : prev);
+      setOrder((prev) => (prev ? { ...prev, minted_status: true } : prev));
     } catch (err) {
       console.error("Mint failed:", err);
       setMintError(err instanceof Error ? err.message : "Mint failed");
@@ -94,12 +108,20 @@ export default function ClaimPage() {
     }
   };
 
+  const copyBurnerKey = () => {
+    if (!burnerWallet) return;
+    const base58Key = bs58.encode(Uint8Array.from(burnerWallet.secretKey));
+    navigator.clipboard.writeText(base58Key);
+    setKeyCopied(true);
+    setTimeout(() => setKeyCopied(false), 2000);
+  };
+
   const saveToPhotos = (imageUrl: string) => {
     if (!imageUrl) return;
     if (navigator.share && /iPad|iPhone|iPod/.test(navigator.userAgent)) {
       fetch(imageUrl)
-        .then(res => res.blob())
-        .then(blob => {
+        .then((res) => res.blob())
+        .then((blob) => {
           const file = new File([blob], `dreamprint-${claimId}.jpg`, { type: "image/jpeg" });
           navigator.share({ title: "Dreamprint Artwork", files: [file] }).catch(() => fallbackDownload(imageUrl));
         })
@@ -138,7 +160,7 @@ export default function ClaimPage() {
         <div className="relative z-10 text-center space-y-4">
           <p className="text-red-500">{error || "Claim not found"}</p>
           <button
-            onClick={() => window.location.href = "/"}
+            onClick={() => (window.location.href = "/")}
             className="px-4 py-2 bg-gray-900 text-white rounded-xl hover:bg-gray-700 transition-colors text-sm"
           >
             Go Home
@@ -147,6 +169,169 @@ export default function ClaimPage() {
       </div>
     );
   }
+
+  const renderMintSection = () => {
+    // Already minted
+    if (order.minted_status && !mintedAddress) {
+      return (
+        <div className="bg-indigo-50 border border-indigo-100 rounded-2xl p-5 mb-5">
+          <p className="text-indigo-600 font-medium text-sm mb-1">Already minted as NFT</p>
+          <p className="text-indigo-400 text-xs">This artwork has been minted to the blockchain</p>
+        </div>
+      );
+    }
+
+    // Mint success
+    if (mintedAddress) {
+      return (
+        <div className="space-y-3 mb-5">
+          <div className="bg-white border border-gray-100 rounded-2xl p-5">
+            <p className="text-xs text-gray-400 mb-1">Asset Address</p>
+            <p className="font-mono text-sm text-gray-700 break-all mb-3">{mintedAddress}</p>
+            <a
+              href={`https://explorer.solana.com/address/${mintedAddress}?cluster=devnet`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-sm text-indigo-600 hover:underline"
+            >
+              View on Explorer →
+            </a>
+          </div>
+
+          {mintMethod === "burner" && burnerWallet && (
+            <div className="bg-amber-50 border border-amber-200 rounded-2xl p-5">
+              <p className="text-amber-800 font-medium text-sm mb-1">Save your wallet key</p>
+              <p className="text-amber-600 text-xs mb-3">
+                Copy this and import into Phantom to access your NFT. Keep it safe — anyone with this key controls your wallet.
+              </p>
+              <div className="bg-white rounded-xl p-3 mb-3 font-mono text-xs text-gray-600 break-all border border-amber-100 max-h-20 overflow-y-auto">
+                {bs58.encode(Uint8Array.from(burnerWallet.secretKey))}
+              </div>
+              <button
+                onClick={copyBurnerKey}
+                className="w-full py-2 bg-amber-600 text-white text-sm rounded-xl hover:bg-amber-700 transition-colors"
+              >
+                {keyCopied ? "Copied!" : "Copy Private Key"}
+              </button>
+              <p className="text-xs text-amber-500 mt-2 text-center">
+                Phantom / Solflare: Import wallet → Private key → paste
+              </p>
+            </div>
+          )}
+        </div>
+      );
+    }
+
+    // Choice screen
+    if (!mintMethod) {
+      return (
+        <div className="space-y-3 mb-5">
+          <p className="text-sm text-gray-500 font-medium">Claim your NFT</p>
+          <button
+            onClick={handleChooseWallet}
+            className="w-full py-3 bg-gray-900 text-white text-sm rounded-xl hover:bg-gray-700 transition-colors"
+          >
+            Connect Wallet
+          </button>
+          <div className="flex items-center gap-3">
+            <div className="flex-1 h-px bg-gray-100" />
+            <span className="text-xs text-gray-400">or</span>
+            <div className="flex-1 h-px bg-gray-100" />
+          </div>
+          <button
+            onClick={handleChooseBurner}
+            className="w-full py-3 border border-gray-200 text-gray-700 text-sm rounded-xl hover:bg-gray-50 transition-colors"
+          >
+            Use Burner Wallet
+            <span className="block text-xs text-gray-400 mt-0.5">No wallet needed · Gas sponsored</span>
+          </button>
+        </div>
+      );
+    }
+
+    // Wallet flow
+    if (mintMethod === "wallet") {
+      if (!connected) {
+        return (
+          <div className="space-y-3 mb-5">
+            <p className="text-sm text-gray-400 text-center">Waiting for wallet connection...</p>
+            <button
+              onClick={() => setVisible(true)}
+              className="w-full py-2.5 bg-gray-900 text-white text-sm rounded-xl hover:bg-gray-700 transition-colors"
+            >
+              Open Wallet
+            </button>
+            <button
+              onClick={() => setMintMethod(null)}
+              className="w-full py-2 text-xs text-gray-400 hover:text-gray-600 transition-colors"
+            >
+              ← Back
+            </button>
+          </div>
+        );
+      }
+      return (
+        <div className="space-y-3 mb-5">
+          <p className="text-xs text-gray-400 text-center font-mono">
+            {publicKey!.toBase58().slice(0, 8)}…{publicKey!.toBase58().slice(-6)}
+          </p>
+          <button
+            onClick={() => handleMint(publicKey!.toBase58())}
+            disabled={minting}
+            className="w-full py-2.5 bg-gray-900 text-white text-sm rounded-xl hover:bg-gray-700 transition-colors disabled:opacity-50"
+          >
+            {minting ? (
+              <span className="flex items-center justify-center gap-2">
+                <span className="animate-spin rounded-full h-4 w-4 border-2 border-white/30 border-t-white" />
+                Minting…
+              </span>
+            ) : (
+              "Mint NFT"
+            )}
+          </button>
+          {mintError && <p className="text-red-500 text-xs text-center">{mintError}</p>}
+          <button
+            onClick={() => setMintMethod(null)}
+            className="w-full py-2 text-xs text-gray-400 hover:text-gray-600 transition-colors"
+          >
+            ← Back
+          </button>
+        </div>
+      );
+    }
+
+    // Burner flow
+    if (mintMethod === "burner" && burnerWallet) {
+      return (
+        <div className="space-y-3 mb-5">
+          <p className="text-xs text-gray-400 text-center font-mono">
+            Burner: {burnerWallet.publicKey.slice(0, 8)}…{burnerWallet.publicKey.slice(-6)}
+          </p>
+          <button
+            onClick={() => handleMint(burnerWallet.publicKey)}
+            disabled={minting}
+            className="w-full py-2.5 bg-gray-900 text-white text-sm rounded-xl hover:bg-gray-700 transition-colors disabled:opacity-50"
+          >
+            {minting ? (
+              <span className="flex items-center justify-center gap-2">
+                <span className="animate-spin rounded-full h-4 w-4 border-2 border-white/30 border-t-white" />
+                Minting…
+              </span>
+            ) : (
+              "Mint NFT · Gas sponsored"
+            )}
+          </button>
+          {mintError && <p className="text-red-500 text-xs text-center">{mintError}</p>}
+          <button
+            onClick={() => setMintMethod(null)}
+            className="w-full py-2 text-xs text-gray-400 hover:text-gray-600 transition-colors"
+          >
+            ← Back
+          </button>
+        </div>
+      );
+    }
+  };
 
   return (
     <div className="min-h-screen bg-white relative overflow-hidden">
@@ -203,56 +388,7 @@ export default function ClaimPage() {
         </div>
 
         {/* Mint section */}
-        {!order.minted_status ? (
-          <div className="space-y-3 mb-5">
-            {!connected ? (
-              <p className="text-sm text-gray-400 text-center py-1">
-                Connect your wallet (top right) to mint
-              </p>
-            ) : (
-              <>
-                <button
-                  onClick={handleMint}
-                  disabled={minting}
-                  className="w-full py-2.5 bg-gray-900 text-white text-sm rounded-xl hover:bg-gray-700 transition-colors disabled:opacity-50"
-                >
-                  {minting ? (
-                    <span className="flex items-center justify-center gap-2">
-                      <span className="animate-spin rounded-full h-4 w-4 border-2 border-white/30 border-t-white" />
-                      Minting…
-                    </span>
-                  ) : (
-                    "Mint NFT"
-                  )}
-                </button>
-                {mintError && (
-                  <p className="text-red-500 text-xs text-center">{mintError}</p>
-                )}
-              </>
-            )}
-          </div>
-        ) : (
-          <div className="bg-indigo-50 border border-indigo-100 rounded-2xl p-5 mb-5">
-            <p className="text-indigo-600 font-medium text-sm mb-1">Already minted as NFT</p>
-            <p className="text-indigo-400 text-xs">This artwork has been minted to the blockchain</p>
-          </div>
-        )}
-
-        {/* Mint success */}
-        {mintedAddress && (
-          <div className="bg-white border border-gray-100 rounded-2xl p-5 mb-5">
-            <p className="text-xs text-gray-400 mb-1">Asset Address</p>
-            <p className="font-mono text-sm text-gray-700 break-all mb-3">{mintedAddress}</p>
-            <a
-              href={`https://explorer.solana.com/address/${mintedAddress}?cluster=devnet`}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-sm text-indigo-600 hover:underline"
-            >
-              View on Explorer →
-            </a>
-          </div>
-        )}
+        {renderMintSection()}
 
         {/* Save to photos */}
         {order.image_url && (
