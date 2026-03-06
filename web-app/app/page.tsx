@@ -53,17 +53,21 @@ export default function Home() {
             <div className="relative flex gap-3 p-14 -mt-24">
               {/* Left column */}
               <div className="flex flex-col gap-3 flex-1">
-                {["one.JPG", "3.JPG"].map((src, i) => (
-                  <div key={i} className="relative aspect-[3/4] rounded-xl shadow-xl overflow-hidden bg-gray-100 hover:scale-105 transition-transform">
-                    <Image src={`/${src}`} alt="" fill className="object-cover" />
+                {["landing-1.jpg", "landing-3.jpg"].map((src, i) => (
+                  <div key={i} className="bg-white p-4 pb-11 shadow-xl rounded-sm hover:scale-105 transition-transform hover:rotate-1">
+                    <div className="relative aspect-[3/4] overflow-hidden bg-gray-100">
+                      <Image src={`/${src}`} alt="" fill className="object-cover" />
+                    </div>
                   </div>
                 ))}
               </div>
               {/* Right column — shifted down */}
               <div className="flex flex-col gap-3 flex-1 mt-7">
-                {["two.jpg", "four.JPG"].map((src, i) => (
-                  <div key={i} className="relative aspect-[3/4] rounded-xl shadow-xl overflow-hidden bg-gray-100 hover:scale-105 transition-transform">
-                    <Image src={`/${src}`} alt="" fill className="object-cover" />
+                {["landing-2.jpg", "landing-4.jpg"].map((src, i) => (
+                  <div key={i} className="bg-white p-4 pb-11 shadow-xl rounded-sm hover:scale-105 transition-transform hover:-rotate-1">
+                    <div className="relative aspect-[3/4] overflow-hidden bg-gray-100">
+                      <Image src={`/${src}`} alt="" fill className="object-cover" />
+                    </div>
                   </div>
                 ))}
               </div>

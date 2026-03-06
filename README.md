@@ -31,6 +31,6 @@ After all guests have minted their NFTs, event hosts can leverage Exchange Art t
 
 ## Roadmap
 
-- Gasless transactions to improve UX, especially for those that don’t have wallets
-- Burner wallets, so privacy-conscious attendees don’t need to associate their regular wallets with AI photos
+- ✅ ~~Gasless transactions to improve UX, especially for those that don’t have wallets~~
+- ✅ ~~Burner wallets, so privacy-conscious attendees don’t need to associate their regular wallets with AI photos~~
 - Most importantly: partner with upcoming Solana events to bring onchain polaroids to more people!
