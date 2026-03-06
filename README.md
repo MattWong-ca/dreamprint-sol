@@ -7,7 +7,7 @@ Live app: https://www.dreamprint.app/
 Demo: https://youtu.be/1ZKQsGRMfQg
 <br>
 
-<img width="1440" height="812" alt="Landing" src="https://github.com/user-attachments/assets/0297eec6-c61a-4e63-b83c-188629318deb" />
+<img width="1440" height="812" alt="Landing" src="https://github.com/user-attachments/assets/4c62e4fe-d9aa-4f9c-88ef-f7bab4c4edae" />
 
 <img width="1440" height="812" alt="ETHRome" src="https://github.com/user-attachments/assets/fe1af821-529a-4a39-9c00-a3b516450443" />
 
