@@ -31,7 +31,7 @@ export default function Home() {
               Dreamprint
             </h1>
             <p className="text-xl font-medium max-w-lg -mt-2">
-              NFT polaroids for events: snap a pic, AI transform, and instantly print for attendees!
+              AI polaroids for events: snap a pic, AI transform, and instantly print for attendees!
             </p>
             <div className="flex gap-4 pt-4">
               <a href="https://t.me/mattwong_ca" target="_blank" rel="noopener noreferrer" className="px-6 py-3 bg-gray-900 text-white font-medium rounded-lg hover:bg-gray-700 transition-all flex items-center gap-2 group">
@@ -143,8 +143,8 @@ export default function Home() {
                 </h2>
                 <ul className="space-y-4 text-lg">
                   {[
-                    "Mint as NFTs, curate as galleries on Exchange Art",
-                    "Onboard users to new ecosystems + increase mint volume",
+                    "Mint and curate as NFT collections",
+                    "Onboard users to products like wallets and chains",
                     "Be a part of long-term communities",
                   ].map((point, i) => (
                     <li key={i} className="flex items-start gap-3">
