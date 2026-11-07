@@ -23,7 +23,7 @@ const montserratAlternates = Montserrat_Alternates({
 
 export const metadata: Metadata = {
   title: "Dreamprint",
-  description: "NFT polaroids for events",
+  description: "AI polaroids for events",
 };
 
 export default function RootLayout({
